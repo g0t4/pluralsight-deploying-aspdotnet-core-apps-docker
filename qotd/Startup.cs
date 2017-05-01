@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace qotd
 {
@@ -30,6 +31,11 @@ namespace qotd
             // Add framework services.
             services.AddMvc()
                 .AddXmlSerializerFormatters();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "qotd API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +45,15 @@ namespace qotd
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            // http://localhost:5000/swagger/v1/swagger.json
+            app.UseSwagger();
+
+            // http://localhost:5000/swagger
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "qotd API");
+            });
         }
     }
 }
