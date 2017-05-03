@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +33,14 @@ namespace qotd
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "qotd API", Version = "v1" });
+
+                // in dev Content Root and Build Output are bifurcated 
+                // in dev we need build output (assembly's folder)
+                // in prod, typically build output = content root so this is fine there too
+                var basePath = System.AppContext.BaseDirectory;
+                Console.WriteLine($"Looking for xml file in {basePath}");
+                var xmlPath = Path.Combine(basePath, "qotd.xml");
+                c.IncludeXmlComments(xmlPath);
             });
         }
 

@@ -18,6 +18,9 @@ namespace qotd.Controllers
         private static Random _Random = new Random();
 
         // GET api/quotes
+        /// <summary>
+        /// Fetch the entire list of quotes.
+        /// </summary>
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -25,6 +28,9 @@ namespace qotd.Controllers
         }
 
         // GET api/quotes/random
+        /// <summary>
+        /// Generate a random quote!
+        /// </summary>
         [HttpGet("random")]
         public string Random()
         {
@@ -41,6 +47,13 @@ namespace qotd.Controllers
         }
 
         // DELETE api/quotes
+        /// <summary>
+        /// Delete the specified quote.
+        /// </summary>
+        /// <remarks>
+        /// If a quote is duplicated only one will be removed at a time.
+        /// </remarks>
+        /// <response code="200">If the item is found or doesn't exist.</response>
         [HttpDelete]
         public void Delete(string quote)
         {
